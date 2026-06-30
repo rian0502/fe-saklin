@@ -1,59 +1,291 @@
-# FeSaklin
+# 🧺 Multi-Outlet Laundry Management System (Front-End)
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.1.
+A modern, responsive, and scalable front-end application built with **Angular 22**. This application serves as the client interface for the **Multi-Outlet Laundry Management System**, providing a seamless experience for administrators, cashiers, and outlet staff.
 
-## Development server
+---
 
-To start a local development server, run:
+## ✨ Features
+
+- 🔐 JWT Authentication
+- 👥 Role-Based Access Control (RBAC)
+- 🏢 Multi-Outlet Support
+- 📦 Laundry Order Management
+- 👤 Customer Management
+- 💳 Payment Management
+- 🧴 Inventory Monitoring
+- ⚙️ Laundry Machine Monitoring
+- 📊 Dashboard & Analytics
+- 🌙 Dark / Light Theme *(if available)*
+- 📱 Responsive Design
+- 🚀 Lazy Loaded Modules
+- ⚡ Route Guards
+- 🔄 HTTP Interceptors
+- 📝 Reactive Forms
+- 🎯 Standalone Components
+
+---
+
+# 🛠 Tech Stack
+
+| Technology | Version |
+|------------|----------|
+| Angular | 22 |
+| TypeScript | Latest |
+| RxJS | Latest |
+| Angular Router | Latest |
+| Angular Signals | Latest |
+| Angular HttpClient | Latest |
+| SCSS | Latest |
+
+---
+
+# 🚀 Getting Started
+
+## Prerequisites
+
+Before running this project, make sure you have installed:
+
+- Node.js 22+
+- npm or pnpm
+- Angular CLI 22
+
+Verify installation:
+
+```bash
+node -v
+npm -v
+ng version
+```
+
+---
+
+# 📦 Installation
+
+## 1. Clone Repository
+
+```bash
+git clone https://github.com/rian0502/fe-saklin.git
+```
+
+---
+
+## 2. Go to Project Directory
+
+```bash
+cd fe-saklin
+```
+
+---
+
+## 3. Install Dependencies
+
+```bash
+npm install
+```
+
+or
+
+```bash
+pnpm install
+```
+
+---
+
+## 4. Configure Environment
+
+Update the API endpoint inside:
+
+```
+src/environments/
+```
+
+Example:
+
+```ts
+export const environment = {
+  production: false,
+  apiUrl: 'http://localhost:8000/api'
+};
+```
+
+---
+
+## 5. Start Development Server
 
 ```bash
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+or
 
 ```bash
-ng generate component component-name
+npm start
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+The application will be available at:
+
+```
+http://localhost:4200
+```
+
+---
+
+# 📁 Project Structure
+
+```
+src
+├── app
+│   ├── core
+│   │   ├── api
+│   │   ├── guards
+│   │   ├── interceptors
+│   │   ├── layouts
+│   │   └── services
+│   ├── features
+│   │   ├── auth
+│   │   ├── dashboard
+│   │   ├── customer
+│   │   ├── laundry
+│   │   ├── inventory
+│   │   └── settings
+│   ├── shared
+│   │   ├── components
+│   │   ├── directives
+│   │   ├── pipes
+│   │   └── models
+│   └── app.routes.ts
+├── assets
+├── environments
+└── styles.scss
+```
+
+---
+
+# 🔐 Authentication
+
+The application authenticates users using **Bearer Token (Laravel Sanctum)**.
+
+After successful login, every API request automatically includes:
+
+```
+Authorization: Bearer YOUR_ACCESS_TOKEN
+```
+
+using an Angular **HTTP Interceptor**.
+
+---
+
+# ⚙️ Available Scripts
+
+Start development server
 
 ```bash
-ng generate --help
+ng serve
 ```
 
-## Building
-
-To build the project run:
+Build application
 
 ```bash
 ng build
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Production build
 
-## Running unit tests
+```bash
+ng build --configuration production
+```
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+Run unit tests
 
 ```bash
 ng test
 ```
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
+Run end-to-end tests
 
 ```bash
 ng e2e
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+Generate a component
 
-## Additional Resources
+```bash
+ng generate component component-name
+```
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Generate a service
+
+```bash
+ng generate service service-name
+```
+
+Generate a guard
+
+```bash
+ng generate guard guard-name
+```
+
+Generate an interceptor
+
+```bash
+ng generate interceptor interceptor-name
+```
+
+---
+
+# 🌐 Backend API
+
+This project communicates with the Laravel REST API.
+
+Default development endpoint:
+
+```
+http://localhost:8000/api
+```
+
+Ensure the backend server is running before starting the frontend.
+
+---
+
+# 📦 Build for Production
+
+```bash
+ng build --configuration production
+```
+
+The production build output will be generated inside:
+
+```
+dist/
+```
+
+---
+
+# 🧪 Testing
+
+Run unit tests:
+
+```bash
+ng test
+```
+
+Run end-to-end tests:
+
+```bash
+ng e2e
+```
+
+---
+
+# 📄 License
+
+This project is licensed under the MIT License.
+
+---
+
+# 👨‍💻 Author
+
+**Muhammad Febrian Hasibuan**
+
+GitHub:
+https://github.com/rian0502
