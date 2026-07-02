@@ -1,33 +1,77 @@
-<app-page-header title="Promotion" subtitle="Promotion details" />
+<app-page-header [title]="isEditMode() ? 'Edit Promotion' : 'Add Promotion'" subtitle="Promotion details" />
 
-<form [formGroup]="form" (ngSubmit)="onSubmit()" class="master-form">
-  <mat-form-field appearance="outline">
-    <mat-label>Name</mat-label>
-    <input matInput formControlName="name" />
-  </mat-form-field>
+@if (loading()) {
+  <app-loading message="Loading promotion..." />
+} @else if (loadError()) {
+  <app-empty-state icon="error_outline" [title]="loadError()!" description="Go back and try again.">
+    <a routerLink="..">Back to promotions</a>
+  </app-empty-state>
+} @else {
+  <form [formGroup]="form" (ngSubmit)="submit()" class="master-form">
+    <mat-form-field appearance="outline">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name" />
+      @if (form.controls.name.hasError('required')) {
+        <mat-error>Name is required.</mat-error>
+      } @else if (serverErrors()['name']) {
+        <mat-error>{{ serverErrors()['name'] }}</mat-error>
+      }
+    </mat-form-field>
 
-  <mat-form-field appearance="outline">
-    <mat-label>Code</mat-label>
-    <input matInput formControlName="code" />
-  </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Code</mat-label>
+      <input matInput formControlName="code" />
+      @if (form.controls.code.hasError('required')) {
+        <mat-error>Code is required.</mat-error>
+      } @else if (serverErrors()['code']) {
+        <mat-error>{{ serverErrors()['code'] }}</mat-error>
+      }
+    </mat-form-field>
 
-  <mat-form-field appearance="outline">
-    <mat-label>Discount (%)</mat-label>
-    <input matInput type="number" formControlName="discountPercentage" />
-  </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Discount (%)</mat-label>
+      <input matInput type="number" formControlName="discountPercentage" />
+      @if (form.controls.discountPercentage.hasError('required')) {
+        <mat-error>Discount is required.</mat-error>
+      } @else if (
+        form.controls.discountPercentage.hasError('min') ||
+        form.controls.discountPercentage.hasError('max')
+      ) {
+        <mat-error>Discount must be between 0 and 100.</mat-error>
+      } @else if (serverErrors()['discountPercentage']) {
+        <mat-error>{{ serverErrors()['discountPercentage'] }}</mat-error>
+      }
+    </mat-form-field>
 
-  <mat-form-field appearance="outline">
-    <mat-label>Start Date</mat-label>
-    <input matInput type="date" formControlName="startDate" />
-  </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Start Date</mat-label>
+      <input matInput type="date" formControlName="startDate" />
+      @if (form.controls.startDate.hasError('required')) {
+        <mat-error>Start date is required.</mat-error>
+      } @else if (serverErrors()['startDate']) {
+        <mat-error>{{ serverErrors()['startDate'] }}</mat-error>
+      }
+    </mat-form-field>
 
-  <mat-form-field appearance="outline">
-    <mat-label>End Date</mat-label>
-    <input matInput type="date" formControlName="endDate" />
-  </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>End Date</mat-label>
+      <input matInput type="date" formControlName="endDate" />
+      @if (form.controls.endDate.hasError('required')) {
+        <mat-error>End date is required.</mat-error>
+      } @else if (serverErrors()['endDate']) {
+        <mat-error>{{ serverErrors()['endDate'] }}</mat-error>
+      }
+    </mat-form-field>
 
-  <div class="master-form__actions">
-    <button mat-button type="button" routerLink="..">Cancel</button>
-    <button mat-flat-button color="primary" type="submit">Save</button>
-  </div>
-</form>
+    <div class="master-form__actions">
+      <button mat-button type="button" routerLink=".." [disabled]="submitting()">Cancel</button>
+      <button mat-flat-button color="primary" type="submit" [disabled]="submitting()">
+        @if (submitting()) {
+          <mat-spinner diameter="20" />
+        } @else {
+          Save
+        }
+      </button>
+    </div>
+  </form>
+}

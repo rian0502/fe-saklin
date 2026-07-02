@@ -1,0 +1,28 @@
+<form [formGroup]="form" class="filter-panel">
+  @for (field of fields(); track field.key) {
+    <mat-form-field appearance="outline">
+      <mat-label>{{ field.label }}</mat-label>
+
+      @switch (field.type) {
+        @case ('select') {
+          <mat-select [formControlName]="field.key">
+            @for (option of field.options ?? []; track option.value) {
+              <mat-option [value]="option.value">{{ option.label }}</mat-option>
+            }
+          </mat-select>
+        }
+        @case ('date') {
+          <input matInput type="date" [formControlName]="field.key" />
+        }
+        @default {
+          <input matInput [formControlName]="field.key" />
+        }
+      }
+    </mat-form-field>
+  }
+
+  <div class="filter-panel__actions">
+    <button mat-button type="button" (click)="reset()">Reset</button>
+    <button mat-flat-button color="primary" type="button" (click)="apply()">Apply</button>
+  </div>
+</form>

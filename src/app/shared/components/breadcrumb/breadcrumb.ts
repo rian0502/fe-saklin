@@ -31,7 +31,7 @@ export class Breadcrumb {
     while (route) {
       const child: ActivatedRoute | null = route.firstChild;
 
-      if (!child) {
+      if (!child?.snapshot) {
         break;
       }
 

@@ -1,0 +1,25 @@
+.login {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.login__card {
+  width: 100%;
+  max-width: 360px;
+}
+
+.login__form {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.login__submit {
+  margin-top: 8px;
+  height: 40px;
+
+  mat-spinner {
+    margin: 0 auto;
+  }
+}

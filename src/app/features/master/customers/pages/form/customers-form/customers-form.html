@@ -1,28 +1,61 @@
-<app-page-header title="Customer" subtitle="Customer details" />
+<app-page-header
+  [title]="isEditMode() ? 'Edit Customer' : 'Add Customer'"
+  subtitle="Customer details"
+/>
 
-<form [formGroup]="form" (ngSubmit)="onSubmit()" class="master-form">
-  <mat-form-field appearance="outline">
-    <mat-label>Name</mat-label>
-    <input matInput formControlName="name" />
-  </mat-form-field>
+@if (loading()) {
+  <app-loading message="Loading customer..." />
+} @else if (loadError()) {
+  <app-empty-state icon="error_outline" [title]="loadError()!" description="Go back and try again.">
+    <a routerLink="..">Back to customers</a>
+  </app-empty-state>
+} @else {
+  <form [formGroup]="form" (ngSubmit)="submit()" class="master-form">
+    <mat-form-field appearance="outline">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name" />
+      @if (form.controls.name.hasError('required')) {
+        <mat-error>Name is required.</mat-error>
+      } @else if (serverErrors()['name']) {
+        <mat-error>{{ serverErrors()['name'] }}</mat-error>
+      }
+    </mat-form-field>
 
-  <mat-form-field appearance="outline">
-    <mat-label>Phone</mat-label>
-    <input matInput formControlName="phone" />
-  </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Phone</mat-label>
+      <input matInput formControlName="phone" />
+      @if (serverErrors()['phone']) {
+        <mat-error>{{ serverErrors()['phone'] }}</mat-error>
+      }
+    </mat-form-field>
 
-  <mat-form-field appearance="outline">
-    <mat-label>Email</mat-label>
-    <input matInput type="email" formControlName="email" />
-  </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Email</mat-label>
+      <input matInput type="email" formControlName="email" />
+      @if (form.controls.email.hasError('email')) {
+        <mat-error>Enter a valid email address.</mat-error>
+      } @else if (serverErrors()['email']) {
+        <mat-error>{{ serverErrors()['email'] }}</mat-error>
+      }
+    </mat-form-field>
 
-  <mat-form-field appearance="outline">
-    <mat-label>Address</mat-label>
-    <input matInput formControlName="address" />
-  </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Address</mat-label>
+      <input matInput formControlName="address" />
+      @if (serverErrors()['address']) {
+        <mat-error>{{ serverErrors()['address'] }}</mat-error>
+      }
+    </mat-form-field>
 
-  <div class="master-form__actions">
-    <button mat-button type="button" routerLink="..">Cancel</button>
-    <button mat-flat-button color="primary" type="submit">Save</button>
-  </div>
-</form>
+    <div class="master-form__actions">
+      <button mat-button type="button" routerLink=".." [disabled]="submitting()">Cancel</button>
+      <button mat-flat-button color="primary" type="submit" [disabled]="submitting()">
+        @if (submitting()) {
+          <mat-spinner diameter="20" />
+        } @else {
+          Save
+        }
+      </button>
+    </div>
+  </form>
+}

@@ -1,1 +1,11 @@
-<router-outlet />
+<div class="auth-shell">
+  <div class="auth-shell__brand">
+    <div class="auth-shell__logo" aria-hidden="true">{{ appName.charAt(0) }}</div>
+    <h1 class="auth-shell__app-name">{{ appName }}</h1>
+    <p class="auth-shell__tagline">Multi-Outlet Laundry Management System</p>
+  </div>
+
+  <router-outlet />
+
+  <p class="auth-shell__version">v{{ version }}</p>
+</div>

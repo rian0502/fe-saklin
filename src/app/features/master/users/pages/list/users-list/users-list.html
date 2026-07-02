@@ -5,37 +5,41 @@
   </a>
 </app-page-header>
 
-@if (loading()) {
-  <app-loading message="Loading users..." />
-} @else if (items().length === 0) {
+<div class="users-list__toolbar">
+  <app-search-box placeholder="Search users..." (searchChange)="onSearchChange($event)" />
+</div>
+
+<app-filter-panel [fields]="filterFields" (filtersChange)="onFiltersChange($event)" />
+
+<app-data-table
+  [columns]="columns"
+  [data]="items()"
+  [loading]="loading()"
+  [sortState]="sort()"
+  (sortChange)="onSortChange($event)"
+>
+  <ng-template #rowActions let-row>
+    <a mat-icon-button [routerLink]="[row.id, 'edit']" aria-label="Edit user">
+      <mat-icon>edit</mat-icon>
+    </a>
+    <button
+      mat-icon-button
+      color="warn"
+      type="button"
+      aria-label="Delete user"
+      (click)="deleteUser(row)"
+    >
+      <mat-icon>delete</mat-icon>
+    </button>
+  </ng-template>
+</app-data-table>
+
+@if (!loading() && items().length === 0) {
   <app-empty-state
     icon="manage_accounts"
-    title="No users yet"
-    description="Users you add will appear here."
+    title="No users found"
+    description="Try adjusting your search or filters, or add a new user."
   />
-} @else {
-  <table mat-table [dataSource]="items()">
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef>Name</th>
-      <td mat-cell *matCellDef="let row">{{ row.name }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="email">
-      <th mat-header-cell *matHeaderCellDef>Email</th>
-      <td mat-cell *matCellDef="let row">{{ row.email }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="roles">
-      <th mat-header-cell *matHeaderCellDef>Roles</th>
-      <td mat-cell *matCellDef="let row">{{ row.roles.join(', ') }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="status">
-      <th mat-header-cell *matHeaderCellDef>Status</th>
-      <td mat-cell *matCellDef="let row">{{ row.status }}</td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-  </table>
 }
+
+<app-paginator [length]="length()" [page]="page()" [perPage]="perPage()" (pageChange)="onPageChange($event)" />
