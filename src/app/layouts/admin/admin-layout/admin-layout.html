@@ -1,1 +1,14 @@
-<p>admin-layout works!</p>
+<mat-sidenav-container class="admin-shell">
+  <mat-sidenav mode="side" [opened]="sidenavOpened()" class="admin-shell__sidenav">
+    <app-sidebar />
+  </mat-sidenav>
+
+  <mat-sidenav-content class="admin-shell__content">
+    <app-topbar (toggleSidenav)="toggleSidenav()" />
+
+    <main class="admin-shell__main">
+      <app-breadcrumb />
+      <router-outlet />
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>

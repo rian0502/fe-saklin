@@ -1,0 +1,23 @@
+<mat-toolbar color="primary" class="app-topbar">
+  <button mat-icon-button type="button" aria-label="Toggle navigation" (click)="toggleSidenav.emit()">
+    <mat-icon>menu</mat-icon>
+  </button>
+
+  <span class="app-topbar__title">SAKLIN</span>
+
+  <span class="app-topbar__spacer"></span>
+
+  @if (currentUser(); as user) {
+    <button mat-button type="button" [matMenuTriggerFor]="userMenu">
+      {{ user.name }}
+      <mat-icon>arrow_drop_down</mat-icon>
+    </button>
+  }
+
+  <mat-menu #userMenu="matMenu">
+    <button mat-menu-item type="button" (click)="logout()">
+      <mat-icon>logout</mat-icon>
+      <span>Logout</span>
+    </button>
+  </mat-menu>
+</mat-toolbar>

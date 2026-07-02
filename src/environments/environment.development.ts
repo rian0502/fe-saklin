@@ -3,7 +3,8 @@ export const environment = {
     appName: 'SAKLIN',
     version: '1.0.0',
     api: {
-        baseUrl: 'http://localhost:8000/api',
+        host: 'http://127.0.0.1:8000',
+        baseUrl: 'http://127.0.0.1:8000/api',
         timeout: 30000,
     },
 };

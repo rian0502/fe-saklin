@@ -1,0 +1,17 @@
+.app-page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 16px;
+}
+
+.app-page-header__title {
+  margin: 0;
+  font: var(--mat-sys-headline-small);
+}
+
+.app-page-header__subtitle {
+  margin: 4px 0 0;
+  color: var(--mat-sys-on-surface-variant);
+}
