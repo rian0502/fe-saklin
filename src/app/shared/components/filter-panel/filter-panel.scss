@@ -1,0 +1,12 @@
+.filter-panel {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 8px 16px;
+}
+
+.filter-panel__actions {
+  display: flex;
+  gap: 8px;
+  padding-top: 4px;
+}

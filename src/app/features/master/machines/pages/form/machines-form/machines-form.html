@@ -1,28 +1,62 @@
-<app-page-header title="Machine" subtitle="Machine details" />
+<app-page-header [title]="isEditMode() ? 'Edit Machine' : 'Add Machine'" subtitle="Machine details" />
 
-<form [formGroup]="form" (ngSubmit)="onSubmit()" class="master-form">
-  <mat-form-field appearance="outline">
-    <mat-label>Code</mat-label>
-    <input matInput formControlName="code" />
-  </mat-form-field>
+@if (loading()) {
+  <app-loading message="Loading machine..." />
+} @else if (loadError()) {
+  <app-empty-state icon="error_outline" [title]="loadError()!" description="Go back and try again.">
+    <a routerLink="..">Back to machines</a>
+  </app-empty-state>
+} @else {
+  <form [formGroup]="form" (ngSubmit)="submit()" class="master-form">
+    <mat-form-field appearance="outline">
+      <mat-label>Code</mat-label>
+      <input matInput formControlName="code" />
+      @if (form.controls.code.hasError('required')) {
+        <mat-error>Code is required.</mat-error>
+      } @else if (serverErrors()['code']) {
+        <mat-error>{{ serverErrors()['code'] }}</mat-error>
+      }
+    </mat-form-field>
 
-  <mat-form-field appearance="outline">
-    <mat-label>Machine Type ID</mat-label>
-    <input matInput type="number" formControlName="machineTypeId" />
-  </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Machine Type ID</mat-label>
+      <input matInput type="number" formControlName="machineTypeId" />
+      @if (form.controls.machineTypeId.hasError('required')) {
+        <mat-error>Machine type is required.</mat-error>
+      } @else if (serverErrors()['machineTypeId']) {
+        <mat-error>{{ serverErrors()['machineTypeId'] }}</mat-error>
+      }
+    </mat-form-field>
 
-  <mat-form-field appearance="outline">
-    <mat-label>Outlet ID</mat-label>
-    <input matInput type="number" formControlName="outletId" />
-  </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Outlet ID</mat-label>
+      <input matInput type="number" formControlName="outletId" />
+      @if (form.controls.outletId.hasError('required')) {
+        <mat-error>Outlet is required.</mat-error>
+      } @else if (serverErrors()['outletId']) {
+        <mat-error>{{ serverErrors()['outletId'] }}</mat-error>
+      }
+    </mat-form-field>
 
-  <mat-form-field appearance="outline">
-    <mat-label>Status</mat-label>
-    <input matInput formControlName="status" />
-  </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Status</mat-label>
+      <input matInput formControlName="status" />
+      @if (form.controls.status.hasError('required')) {
+        <mat-error>Status is required.</mat-error>
+      } @else if (serverErrors()['status']) {
+        <mat-error>{{ serverErrors()['status'] }}</mat-error>
+      }
+    </mat-form-field>
 
-  <div class="master-form__actions">
-    <button mat-button type="button" routerLink="..">Cancel</button>
-    <button mat-flat-button color="primary" type="submit">Save</button>
-  </div>
-</form>
+    <div class="master-form__actions">
+      <button mat-button type="button" routerLink=".." [disabled]="submitting()">Cancel</button>
+      <button mat-flat-button color="primary" type="submit" [disabled]="submitting()">
+        @if (submitting()) {
+          <mat-spinner diameter="20" />
+        } @else {
+          Save
+        }
+      </button>
+    </div>
+  </form>
+}

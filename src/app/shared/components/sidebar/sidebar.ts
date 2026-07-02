@@ -7,6 +7,7 @@ import { NavItem } from '../../types/nav-item.model';
 
 const NAV_ITEMS: NavItem[] = [
   { label: 'Dashboard', icon: 'dashboard', path: '/admin/dashboard' },
+  { label: 'Outlets', icon: 'storefront', path: '/admin/outlets', requiredPermission: 'outlets.view' },
   { label: 'Customers', icon: 'group', path: '/admin/customers', requiredPermission: 'customers.view' },
   {
     label: 'Machine Types',
@@ -30,8 +31,8 @@ const NAV_ITEMS: NavItem[] = [
   { label: 'Promotions', icon: 'sell', path: '/admin/promotions', requiredPermission: 'promotions.view' },
   { label: 'Users', icon: 'manage_accounts', path: '/admin/users', requiredPermission: 'users.view' },
   { label: 'Orders', icon: 'receipt_long', path: '/admin/orders', requiredPermission: 'orders.view' },
-  { label: 'Reports', icon: 'insights', path: '/admin/reports', requiredRole: 'admin' },
-  { label: 'Settings', icon: 'settings', path: '/admin/settings', requiredRole: 'admin' },
+  { label: 'Reports', icon: 'insights', path: '/admin/reports', requiredPermission: 'reports.view' },
+  { label: 'Settings', icon: 'settings', path: '/admin/settings', requiredPermission: 'settings.view' },
 ];
 
 @Component({

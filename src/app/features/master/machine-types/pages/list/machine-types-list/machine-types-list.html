@@ -5,32 +5,39 @@
   </a>
 </app-page-header>
 
-@if (loading()) {
-  <app-loading message="Loading machine types..." />
-} @else if (items().length === 0) {
+<div class="machine-types-list__toolbar">
+  <app-search-box placeholder="Search machine types..." (searchChange)="onSearchChange($event)" />
+</div>
+
+<app-data-table
+  [columns]="columns"
+  [data]="items()"
+  [loading]="loading()"
+  [sortState]="sort()"
+  (sortChange)="onSortChange($event)"
+>
+  <ng-template #rowActions let-row>
+    <a mat-icon-button [routerLink]="[row.id, 'edit']" aria-label="Edit machine type">
+      <mat-icon>edit</mat-icon>
+    </a>
+    <button
+      mat-icon-button
+      color="warn"
+      type="button"
+      aria-label="Delete machine type"
+      (click)="deleteMachineType(row)"
+    >
+      <mat-icon>delete</mat-icon>
+    </button>
+  </ng-template>
+</app-data-table>
+
+@if (!loading() && items().length === 0) {
   <app-empty-state
     icon="category"
-    title="No machine types yet"
-    description="Machine types you add will appear here."
+    title="No machine types found"
+    description="Try adjusting your search, or add a new machine type."
   />
-} @else {
-  <table mat-table [dataSource]="items()">
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef>Name</th>
-      <td mat-cell *matCellDef="let row">{{ row.name }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="description">
-      <th mat-header-cell *matHeaderCellDef>Description</th>
-      <td mat-cell *matCellDef="let row">{{ row.description }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="capacityKg">
-      <th mat-header-cell *matHeaderCellDef>Capacity (kg)</th>
-      <td mat-cell *matCellDef="let row">{{ row.capacityKg }}</td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-  </table>
 }
+
+<app-paginator [length]="length()" [page]="page()" [perPage]="perPage()" (pageChange)="onPageChange($event)" />

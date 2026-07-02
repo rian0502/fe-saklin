@@ -1,23 +1,56 @@
-<app-page-header title="Service" subtitle="Service details" />
+<app-page-header [title]="isEditMode() ? 'Edit Service' : 'Add Service'" subtitle="Service details" />
 
-<form [formGroup]="form" (ngSubmit)="onSubmit()" class="master-form">
-  <mat-form-field appearance="outline">
-    <mat-label>Name</mat-label>
-    <input matInput formControlName="name" />
-  </mat-form-field>
+@if (loading()) {
+  <app-loading message="Loading service..." />
+} @else if (loadError()) {
+  <app-empty-state icon="error_outline" [title]="loadError()!" description="Go back and try again.">
+    <a routerLink="..">Back to services</a>
+  </app-empty-state>
+} @else {
+  <form [formGroup]="form" (ngSubmit)="submit()" class="master-form">
+    <mat-form-field appearance="outline">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name" />
+      @if (form.controls.name.hasError('required')) {
+        <mat-error>Name is required.</mat-error>
+      } @else if (serverErrors()['name']) {
+        <mat-error>{{ serverErrors()['name'] }}</mat-error>
+      }
+    </mat-form-field>
 
-  <mat-form-field appearance="outline">
-    <mat-label>Price</mat-label>
-    <input matInput type="number" formControlName="price" />
-  </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Price</mat-label>
+      <input matInput type="number" formControlName="price" />
+      @if (form.controls.price.hasError('required')) {
+        <mat-error>Price is required.</mat-error>
+      } @else if (form.controls.price.hasError('min')) {
+        <mat-error>Price must be 0 or greater.</mat-error>
+      } @else if (serverErrors()['price']) {
+        <mat-error>{{ serverErrors()['price'] }}</mat-error>
+      }
+    </mat-form-field>
 
-  <mat-form-field appearance="outline">
-    <mat-label>Duration (minutes)</mat-label>
-    <input matInput type="number" formControlName="durationMinutes" />
-  </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Duration (minutes)</mat-label>
+      <input matInput type="number" formControlName="durationMinutes" />
+      @if (form.controls.durationMinutes.hasError('required')) {
+        <mat-error>Duration is required.</mat-error>
+      } @else if (form.controls.durationMinutes.hasError('min')) {
+        <mat-error>Duration must be 0 or greater.</mat-error>
+      } @else if (serverErrors()['durationMinutes']) {
+        <mat-error>{{ serverErrors()['durationMinutes'] }}</mat-error>
+      }
+    </mat-form-field>
 
-  <div class="master-form__actions">
-    <button mat-button type="button" routerLink="..">Cancel</button>
-    <button mat-flat-button color="primary" type="submit">Save</button>
-  </div>
-</form>
+    <div class="master-form__actions">
+      <button mat-button type="button" routerLink=".." [disabled]="submitting()">Cancel</button>
+      <button mat-flat-button color="primary" type="submit" [disabled]="submitting()">
+        @if (submitting()) {
+          <mat-spinner diameter="20" />
+        } @else {
+          Save
+        }
+      </button>
+    </div>
+  </form>
+}

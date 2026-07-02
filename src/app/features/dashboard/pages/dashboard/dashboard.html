@@ -1,1 +1,44 @@
 <app-page-header title="Dashboard" subtitle="Overview of your laundry operations" />
+
+<mat-card class="dashboard__profile">
+  <mat-card-content class="dashboard__profile-content">
+    <div class="dashboard__profile-field">
+      <span class="dashboard__profile-label">Name</span>
+      <span class="dashboard__profile-value">{{ currentUser()?.name ?? '—' }}</span>
+    </div>
+
+    <div class="dashboard__profile-field">
+      <span class="dashboard__profile-label">Email</span>
+      <span class="dashboard__profile-value">{{ currentUser()?.email ?? '—' }}</span>
+    </div>
+
+    <div class="dashboard__profile-field">
+      <span class="dashboard__profile-label">Role</span>
+      <span class="dashboard__profile-value">{{ roles().join(', ') || '—' }}</span>
+    </div>
+
+    <div class="dashboard__profile-field">
+      <span class="dashboard__profile-label">Outlet</span>
+      <span class="dashboard__profile-value">
+        @if (currentUser(); as user) {
+          #{{ user.outlet_id }}
+        } @else {
+          —
+        }
+      </span>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<h2 class="dashboard__section-title">Quick Menu</h2>
+
+<div class="dashboard__quick-menu">
+  @for (item of quickMenuItems(); track item.path) {
+    <a [routerLink]="item.path" class="dashboard__quick-menu-link">
+      <mat-card class="dashboard__quick-menu-card">
+        <mat-icon class="dashboard__quick-menu-icon">{{ item.icon }}</mat-icon>
+        <span>{{ item.label }}</span>
+      </mat-card>
+    </a>
+  }
+</div>

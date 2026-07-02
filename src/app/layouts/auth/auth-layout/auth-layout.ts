@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-auth-layout',
@@ -8,5 +9,6 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './auth-layout.scss',
 })
 export class AuthLayout {
-
+  protected readonly appName = environment.appName;
+  protected readonly version = environment.version;
 }

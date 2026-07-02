@@ -5,42 +5,41 @@
   </a>
 </app-page-header>
 
-@if (loading()) {
-  <app-loading message="Loading promotions..." />
-} @else if (items().length === 0) {
+<div class="promotions-list__toolbar">
+  <app-search-box placeholder="Search promotions..." (searchChange)="onSearchChange($event)" />
+</div>
+
+<app-filter-panel [fields]="filterFields" (filtersChange)="onFiltersChange($event)" />
+
+<app-data-table
+  [columns]="columns"
+  [data]="items()"
+  [loading]="loading()"
+  [sortState]="sort()"
+  (sortChange)="onSortChange($event)"
+>
+  <ng-template #rowActions let-row>
+    <a mat-icon-button [routerLink]="[row.id, 'edit']" aria-label="Edit promotion">
+      <mat-icon>edit</mat-icon>
+    </a>
+    <button
+      mat-icon-button
+      color="warn"
+      type="button"
+      aria-label="Delete promotion"
+      (click)="deletePromotion(row)"
+    >
+      <mat-icon>delete</mat-icon>
+    </button>
+  </ng-template>
+</app-data-table>
+
+@if (!loading() && items().length === 0) {
   <app-empty-state
     icon="sell"
-    title="No promotions yet"
-    description="Promotions you add will appear here."
+    title="No promotions found"
+    description="Try adjusting your search or filters, or add a new promotion."
   />
-} @else {
-  <table mat-table [dataSource]="items()">
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef>Name</th>
-      <td mat-cell *matCellDef="let row">{{ row.name }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="code">
-      <th mat-header-cell *matHeaderCellDef>Code</th>
-      <td mat-cell *matCellDef="let row">{{ row.code }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="discountPercentage">
-      <th mat-header-cell *matHeaderCellDef>Discount (%)</th>
-      <td mat-cell *matCellDef="let row">{{ row.discountPercentage }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="startDate">
-      <th mat-header-cell *matHeaderCellDef>Start Date</th>
-      <td mat-cell *matCellDef="let row">{{ row.startDate }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="endDate">
-      <th mat-header-cell *matHeaderCellDef>End Date</th>
-      <td mat-cell *matCellDef="let row">{{ row.endDate }}</td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-  </table>
 }
+
+<app-paginator [length]="length()" [page]="page()" [perPage]="perPage()" (pageChange)="onPageChange($event)" />

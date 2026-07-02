@@ -5,37 +5,41 @@
   </a>
 </app-page-header>
 
-@if (loading()) {
-  <app-loading message="Loading machines..." />
-} @else if (items().length === 0) {
+<div class="machines-list__toolbar">
+  <app-search-box placeholder="Search machines..." (searchChange)="onSearchChange($event)" />
+</div>
+
+<app-filter-panel [fields]="filterFields" (filtersChange)="onFiltersChange($event)" />
+
+<app-data-table
+  [columns]="columns"
+  [data]="items()"
+  [loading]="loading()"
+  [sortState]="sort()"
+  (sortChange)="onSortChange($event)"
+>
+  <ng-template #rowActions let-row>
+    <a mat-icon-button [routerLink]="[row.id, 'edit']" aria-label="Edit machine">
+      <mat-icon>edit</mat-icon>
+    </a>
+    <button
+      mat-icon-button
+      color="warn"
+      type="button"
+      aria-label="Delete machine"
+      (click)="deleteMachine(row)"
+    >
+      <mat-icon>delete</mat-icon>
+    </button>
+  </ng-template>
+</app-data-table>
+
+@if (!loading() && items().length === 0) {
   <app-empty-state
     icon="settings_suggest"
-    title="No machines yet"
-    description="Machines you add will appear here."
+    title="No machines found"
+    description="Try adjusting your search or filters, or add a new machine."
   />
-} @else {
-  <table mat-table [dataSource]="items()">
-    <ng-container matColumnDef="code">
-      <th mat-header-cell *matHeaderCellDef>Code</th>
-      <td mat-cell *matCellDef="let row">{{ row.code }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="machineTypeId">
-      <th mat-header-cell *matHeaderCellDef>Machine Type</th>
-      <td mat-cell *matCellDef="let row">{{ row.machineTypeId }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="outletId">
-      <th mat-header-cell *matHeaderCellDef>Outlet</th>
-      <td mat-cell *matCellDef="let row">{{ row.outletId }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="status">
-      <th mat-header-cell *matHeaderCellDef>Status</th>
-      <td mat-cell *matCellDef="let row">{{ row.status }}</td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-  </table>
 }
+
+<app-paginator [length]="length()" [page]="page()" [perPage]="perPage()" (pageChange)="onPageChange($event)" />
