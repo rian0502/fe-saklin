@@ -13,20 +13,27 @@ export const routes: Routes = [
             import('./routes/auth.routes').then((m) => m.AUTH_ROUTES),
     },
 
-    // {
-    //     path: 'admin',
-    //     loadChildren: () =>
-    //         import('./routes/admin.routes').then((m) => m.ADMIN_ROUTES),
-    // },
+    {
+        path: 'admin',
+        loadChildren: () =>
+            import('./routes/admin.routes').then((m) => m.ADMIN_ROUTES),
+    },
 
-    // {
-    //     path: 'pos',
-    //     loadChildren: () =>
-    //         import('./routes/pos.routes').then((m) => m.POS_ROUTES),
-    // },
+    {
+        path: 'pos',
+        loadChildren: () =>
+            import('./routes/pos.routes').then((m) => m.POS_ROUTES),
+    },
+
+    {
+        path: 'forbidden',
+        loadComponent: () =>
+            import('./pages/forbidden/forbidden').then((m) => m.Forbidden),
+    },
 
     {
         path: '**',
-        redirectTo: 'auth/login',
+        loadComponent: () =>
+            import('./pages/not-found/not-found').then((m) => m.NotFound),
     },
 ];

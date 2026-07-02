@@ -1,0 +1,41 @@
+<app-page-header title="Users" subtitle="Manage staff accounts and access">
+  <a pageHeaderActions mat-flat-button color="primary" routerLink="new">
+    <mat-icon>add</mat-icon>
+    Add User
+  </a>
+</app-page-header>
+
+@if (loading()) {
+  <app-loading message="Loading users..." />
+} @else if (items().length === 0) {
+  <app-empty-state
+    icon="manage_accounts"
+    title="No users yet"
+    description="Users you add will appear here."
+  />
+} @else {
+  <table mat-table [dataSource]="items()">
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Name</th>
+      <td mat-cell *matCellDef="let row">{{ row.name }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef>Email</th>
+      <td mat-cell *matCellDef="let row">{{ row.email }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="roles">
+      <th mat-header-cell *matHeaderCellDef>Roles</th>
+      <td mat-cell *matCellDef="let row">{{ row.roles.join(', ') }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef>Status</th>
+      <td mat-cell *matCellDef="let row">{{ row.status }}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+}

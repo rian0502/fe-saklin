@@ -36,3 +36,19 @@ body {
   height: 100%;
 }
 /* You can add global styles to this file, and also import other style files */
+
+// Shared layout for master-data form scaffolds (customers, machines, etc.).
+.master-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 480px;
+}
+
+.master-form__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 8px;
+}
+

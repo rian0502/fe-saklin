@@ -1,0 +1,23 @@
+<app-page-header title="Machine Type" subtitle="Machine type details" />
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="master-form">
+  <mat-form-field appearance="outline">
+    <mat-label>Name</mat-label>
+    <input matInput formControlName="name" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Description</mat-label>
+    <input matInput formControlName="description" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Capacity (kg)</mat-label>
+    <input matInput type="number" formControlName="capacityKg" />
+  </mat-form-field>
+
+  <div class="master-form__actions">
+    <button mat-button type="button" routerLink="..">Cancel</button>
+    <button mat-flat-button color="primary" type="submit">Save</button>
+  </div>
+</form>

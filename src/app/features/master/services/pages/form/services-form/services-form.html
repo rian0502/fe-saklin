@@ -1,0 +1,23 @@
+<app-page-header title="Service" subtitle="Service details" />
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="master-form">
+  <mat-form-field appearance="outline">
+    <mat-label>Name</mat-label>
+    <input matInput formControlName="name" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Price</mat-label>
+    <input matInput type="number" formControlName="price" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Duration (minutes)</mat-label>
+    <input matInput type="number" formControlName="durationMinutes" />
+  </mat-form-field>
+
+  <div class="master-form__actions">
+    <button mat-button type="button" routerLink="..">Cancel</button>
+    <button mat-flat-button color="primary" type="submit">Save</button>
+  </div>
+</form>

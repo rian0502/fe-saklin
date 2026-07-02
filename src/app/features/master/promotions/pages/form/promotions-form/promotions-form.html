@@ -1,0 +1,33 @@
+<app-page-header title="Promotion" subtitle="Promotion details" />
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="master-form">
+  <mat-form-field appearance="outline">
+    <mat-label>Name</mat-label>
+    <input matInput formControlName="name" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Code</mat-label>
+    <input matInput formControlName="code" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Discount (%)</mat-label>
+    <input matInput type="number" formControlName="discountPercentage" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Start Date</mat-label>
+    <input matInput type="date" formControlName="startDate" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>End Date</mat-label>
+    <input matInput type="date" formControlName="endDate" />
+  </mat-form-field>
+
+  <div class="master-form__actions">
+    <button mat-button type="button" routerLink="..">Cancel</button>
+    <button mat-flat-button color="primary" type="submit">Save</button>
+  </div>
+</form>
